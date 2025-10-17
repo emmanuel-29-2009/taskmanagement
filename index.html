@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Modern Task Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-tasks"></i>
+                <span>TaskFlow</span>
+            </div>
+            <div class="user-actions">
+                <button class="btn btn-outline" id="syncBtn">
+                    <i class="fas fa-sync-alt"></i> Sync
+                </button>
+                <button class="btn btn-primary" id="newTaskBtn">
+                    <i class="fas fa-plus"></i> New Task
+                </button>
+            </div>
+        </header>
+        
+        <div class="app-content">
+            <div class="sidebar">
+                <div class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-page="inbox">
+                    <i class="fas fa-inbox"></i>
+                    <span>Inbox</span>
+                    <span class="task-count" id="inboxCount">3</span>
+                </div>
+                <div class="nav-item" data-page="today">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Today</span>
+                    <span class="task-count" id="todayCount">5</span>
+                </div>
+                <div class="nav-item" data-page="upcoming">
+                    <i class="fas fa-calendar-week"></i>
+                    <span>Upcoming</span>
+                    <span class="task-count" id="upcomingCount">7</span>
+                </div>
+                <div class="nav-item" data-page="projects">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Projects</span>
+                </div>
+                <div class="nav-item" data-page="labels">
+                    <i class="fas fa-tags"></i>
+                    <span>Labels</span>
+                </div>
+                <div class="nav-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <!-- Dashboard Page -->
+                <div class="page active" id="dashboard-page">
+                    <div class="stats-cards">
+                        <div class="stat-card">
+                            <i class="fas fa-tasks"></i>
+                            <div class="stat-value" id="totalTasks">12</div>
+                            <div class="stat-label">Total Tasks</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="stat-value" id="completedTasks">5</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <div class="stat-value" id="pendingTasks">7</div>
+                            <div class="stat-label">Pending</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <div class="stat-value" id="overdueTasks">2</div>
+                            <div class="stat-label">Overdue</div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-header">
+                        <h2 class="section-title">My Tasks</h2>
+                        <div class="task-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="today">Today</button>
+                            <button class="filter-btn" data-filter="week">Week</button>
+                            <button class="filter-btn" data-filter="important">Important</button>
+                        </div>
+                    </div>
+                    
+                    <div class="task-columns">
+                        <div class="column">
+                            <div class="column-header">
+                                <div class="column-title">
+                                    <i class="fas fa-list-ul"></i>
+                                    <span>To Do</span>
+                                    <span class="task-count" id="todoCount">4</span>
+                                </div>
+                                <button class="add-task-btn" data-column="todo">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="task-list" id="todo-list" data-status="todo">
+                                <!-- Task items will be added here dynamically -->
+                            </div>
+                        </div>
+                        
+                        <div class="column">
+                            <div class="column-header">
+                                <div class="column-title">
+                                    <i class="fas fa-spinner"></i>
+                                    <span>In Progress</span>
+                                    <span class="task-count" id="inProgressCount">3</span>
+                                </div>
+                                <button class="add-task-btn" data-column="inProgress">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="task-list" id="inProgress-list" data-status="inProgress">
+                                <!-- Task items will be added here dynamically -->
+                            </div>
+                        </div>
+                        
+                        <div class="column">
+                            <div class="column-header">
+                                <div class="column-title">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Completed</span>
+                                    <span class="task-count" id="completedCount">5</span>
+                                </div>
+                                <button class="add-task-btn" data-column="completed">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="task-list" id="completed-list" data-status="completed">
+                                <!-- Task items will be added here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Inbox Page -->
+                <div class="page" id="inbox-page">
+                    <div class="content-header">
+                        <h2 class="section-title">Inbox</h2>
+                        <button class="btn btn-primary" id="addInboxTask">
+                            <i class="fas fa-plus"></i> Add Task
+                        </button>
+                    </div>
+                    <div class="list-view" id="inbox-tasks">
+                        <!-- Inbox tasks will be added here -->
+                    </div>
+                </div>
+                
+                <!-- Today Page -->
+                <div class="page" id="today-page">
+                    <div class="content-header">
+                        <h2 class="section-title">Today's Tasks</h2>
+                        <button class="btn btn-primary" id="addTodayTask">
+                            <i class="fas fa-plus"></i> Add Task
+                        </button>
+                    </div>
+                    <div class="list-view" id="today-tasks">
+                        <!-- Today's tasks will be added here -->
+                    </div>
+                </div>
+                
+                <!-- Upcoming Page -->
+                <div class="page" id="upcoming-page">
+                    <div class="content-header">
+                        <h2 class="section-title">Upcoming Tasks</h2>
+                        <button class="btn btn-primary" id="addUpcomingTask">
+                            <i class="fas fa-plus"></i> Add Task
+                        </button>
+                    </div>
+                    <div class="list-view" id="upcoming-tasks">
+                        <!-- Upcoming tasks will be added here -->
+                    </div>
+                </div>
+                
+                <!-- Projects Page -->
+                <div class="page" id="projects-page">
+                    <div class="content-header">
+                        <h2 class="section-title">Projects</h2>
+                        <button class="btn btn-primary" id="addProject">
+                            <i class="fas fa-plus"></i> New Project
+                        </button>
+                    </div>
+                    <div class="list-view" id="projects-list">
+                        <!-- Projects will be added here -->
+                    </div>
+                </div>
+                
+                <!-- Labels Page -->
+                <div class="page" id="labels-page">
+                    <div class="content-header">
+                        <h2 class="section-title">Labels</h2>
+                        <button class="btn btn-primary" id="addLabel">
+                            <i class="fas fa-plus"></i> New Label
+                        </button>
+                    </div>
+                    <div class="list-view" id="labels-list">
+                        <!-- Labels will be added here -->
+                    </div>
+                </div>
+                
+                <!-- Settings Page -->
+                <div class="page" id="settings-page">
+                    <div class="content-header">
+                        <h2 class="section-title">Settings</h2>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Appearance</h3>
+                        <div class="setting-item">
+                            <span>Dark Mode</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>Compact View</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="compactViewToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        <div class="setting-item">
+                            <span>Task Reminders</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="remindersToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>Due Date Alerts</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="alertsToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Data Management</h3>
+                        <div class="setting-item">
+                            <span>Auto-sync</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="autosyncToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>Export Data</span>
+                            <button class="btn btn-outline" style="color: var(--dark); border-color: var(--gray-light);" id="exportBtn">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Task Modal -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Add New Task</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <div class="form-group">
+                    <label for="taskTitle" class="form-label">Task Title</label>
+                    <input type="text" id="taskTitle" class="form-control" placeholder="Enter task title" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription" class="form-label">Description</label>
+                    <textarea id="taskDescription" class="form-control" rows="3" placeholder="Enter task description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="taskPriority" class="form-label">Priority</label>
+                    <select id="taskPriority" class="form-control form-select">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskDueDate" class="form-label">Due Date</label>
+                    <input type="date" id="taskDueDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="taskStatus" class="form-label">Status</label>
+                    <select id="taskStatus" class="form-control form-select">
+                        <option value="todo">To Do</option>
+                        <option value="inProgress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-cancel" id="cancelTask">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
